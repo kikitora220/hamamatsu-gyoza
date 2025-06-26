@@ -97,10 +97,8 @@
       opacity: 0;
       animation: fadeInUp 0.8s ease-out forwards 0.4s, pulse 2.5s infinite 1.2s;
     }
-    .hero .hero-chara {
-      opacity: 0;
-      animation: fadeInUp 0.8s ease-out forwards 0.6s;
-    }
+    
+    
 
     @keyframes fadeInUp {
       from {
@@ -113,7 +111,7 @@
       }
     }
 
-    /* --- ▼ キャラクターアニメーションのスタイル（動きを大きく） ▼ --- */
+    /* --- ▼ 新しいキャラクターアニメーション ▼ --- */
     .hero-chara {
       display: flex;
       justify-content: center;
@@ -122,38 +120,44 @@
     }
     .hero-chara img {
       height: 120px;
-      animation-name: floatAnimation;
-      animation-duration: 2.8s; /* 少し速く */
-      animation-iteration-count: infinite;
-      animation-timing-function: ease-in-out;
-      animation-direction: alternate;
+      opacity: 0; /* 最初は非表示 */
+      /* 登場アニメーションと、波乗りアニメーションを両方適用 */
+      animation: 
+        fadeInUp 0.8s ease-out forwards,
+        waveAnimation 4s ease-in-out infinite alternate;
       transition: transform 0.3s ease;
     }
 
+    /* 登場と波乗りアニメーションのタイミングをずらす */
     .hero-chara img:nth-child(1) {
-      animation-delay: 0s;
+      animation-delay: 0.6s, 0.6s; /* 登場, 波乗り */
     }
     .hero-chara img:nth-child(2) {
-      animation-delay: 0.4s;
+      animation-delay: 0.8s, 0.8s;
     }
     .hero-chara img:nth-child(3) {
-      animation-delay: 0.8s;
+      animation-delay: 1.0s, 1.0s;
     }
 
-    /* ゆらゆら揺れるアニメーションの定義 */
-    @keyframes floatAnimation {
-      from {
-        transform: translateY(0px);
+    /* 波のように揺れるアニメーションの定義 */
+    @keyframes waveAnimation {
+      0% {
+        transform: translate(0, 0) rotate(0deg);
       }
-      to {
-        transform: translateY(-15px); /* 動きを大きく */
+      25% {
+        transform: translate(5px, -15px) rotate(5deg);
+      }
+      75% {
+        transform: translate(-5px, -5px) rotate(-5deg);
+      }
+      100% {
+        transform: translate(0, 0) rotate(0deg);
       }
     }
 
-    /* マウスを乗せるとぴょこんと跳ねる */
     .hero-chara img:hover {
-      transform: translateY(-22px) scale(1.15) rotate(-8deg); /* 動きを大きく */
-      animation-play-state: paused;
+      transform: translateY(-22px) scale(1.15) rotate(-8deg);
+      animation-play-state: paused, paused; /* 両方のアニメーションを一時停止 */
     }
     /* --- ▲ スタイルここまで ▲ --- */
     
