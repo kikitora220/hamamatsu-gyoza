@@ -88,6 +88,29 @@
       background-color: #8D4E49;
       color: #fff;
     }
+    .question-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+    .question-img {
+        width: 100px;
+        height: 160px;
+        object-fit: cover;
+        border-radius: 20px;
+        flex-shrink: 0;
+    }
+    .question-content {
+        text-align: center;
+        flex: 1;
+        padding: 0 20px;
+    }
+
+    /* --- ▼ ここから結果表示のスタイルを追加 ▼ --- */
     #result-section {
       min-height: 100vh;
       background: #8D4E49;
@@ -97,46 +120,89 @@
       justify-content: center;
       align-items: center;
       padding: 40px 20px;
+      text-align: center;
+    }
+    .result-img {
+      width: 80%;
+      max-width: 320px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    #result-text h2 {
+      font-size: 18px;
+      font-weight: 500;
+      margin-bottom: 24px;
+    }
+    #result-text h3 {
+      font-size: 32px;
+      margin: 0 0 16px 0;
+      color: #FFDDAA;
+      font-weight: 700;
+    }
+    .reason-box {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 10px 20px;
+      margin: 16px auto;
+      display: inline-block;
+      max-width: 90%;
+    }
+    .reason-box p {
+      margin: 8px 0;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    .match-percent {
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 16px;
+    }
+    .access-info {
+      margin-top: 8px;
+      font-size: 14px;
     }
     a.result-link {
-      color: #fff;
-      text-decoration: underline;
-      margin-top: 10px;
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 24px;
+      background: #FFDDAA;
+      color: #8D4E49;
+      font-weight: bold;
+      border-radius: 25px;
+      text-decoration: none;
+      transition: all 0.3s;
     }
-    .question-wrapper {
-        display: flex;
-        align-items: center;
-        justify-content: space-between; /* ←ここを変更 */
-        flex-wrap: nowrap; /* wrapをやめて中央に寄りすぎるのを防ぐ */
-        width: 100%;
-        max-width: 900px;
-        margin: 0 auto;
+    a.result-link:hover {
+      opacity: 0.8;
     }
-
-    .question-img {
-        width: 100px;
-        height: 160px;
-        object-fit: cover;
-        border-radius: 20px;
-        flex-shrink: 0; /* ←画像が縮まないようにする */
+    #result-section button {
+      padding: 12px 30px;
+      background-color: transparent;
+      color: white;
+      font-size: 16px;
+      border: 1px solid white;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin: 8px;
     }
-
-    .question-content {
-        text-align: center;
-        flex: 1; /* ←中央が広がるように調整 */
-        padding: 0 20px;
+    #result-section button:hover {
+      background-color: white;
+      color: #8D4E49;
     }
+    /* --- ▲ ここまで結果表示のスタイルを追加 ▲ --- */
 
   </style>
 </head>
 <body>
   <section class="hero">
-    <img src="見出し@300x.png" alt="浜松餃子見出し" class="hero-title" />
+    <img src="images/見出し@300x.png" alt="浜松餃子見出し" class="hero-title" />
     <p class="hero-sub">あなたにぴったりの浜松餃子、診断で見つけよう！</p>
     <div class="hero-chara">
-      <img src="ぱりぱり@300x.png" alt="パリパリ餃子" />
-      <img src="もちぱり@300x.png" alt="もちぱり餃子" />
-      <img src="もちもち@300x.png" alt="もちもち餃子" />
+      <img src="images/ぱりぱり@300x.png" alt="パリパリ餃子" />
+      <img src="images/もちぱり@300x.png" alt="もちぱり餃子" />
+      <img src="images/もちもち@300x.png" alt="もちもち餃子" />
     </div>
     <button id="startBtn" class="start-btn">診断スタート</button>
     <div id="shopList" style="margin-top:40px;">
@@ -144,55 +210,55 @@
     <div style="display: flex; overflow-x: auto; padding: 0 16px; gap: 16px; scroll-snap-type: x mandatory;">
         
     <div style="flex: 0 0 auto; width: 240px; background: #fff; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); padding: 12px; scroll-snap-align: start;">
-      <img src="mutsugiku19-4.jpg" alt="むつぎく" style="width: 100%; border-radius: 8px; object-fit: cover; height: 200px;" />
+      <img src="images/mutsugiku19-4.jpg" alt="むつぎく" style="width: 100%; border-radius: 8px; object-fit: cover; height: 200px;" />
       <h3 style="margin: 8px 0 4px; font-size: 16px;">むつぎく</h3>
       <p style="font-size: 14px; color: #555;">駅チカ・野菜多めであっさり！</p>
     </div>
 
     <div style="flex: 0 0 auto; width: 240px; background: #fff; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); padding: 12px; scroll-snap-align: start;">
-      <img src="fukumitu.jpg" alt="福みつ" style="width: 100%; border-radius: 8px; object-fit: cover; height: 200px;" />
+      <img src="images/fukumitu.jpg" alt="福みつ" style="width: 100%; border-radius: 8px; object-fit: cover; height: 200px;" />
       <h3 style="margin: 8px 0 4px; font-size: 16px;">福みつ</h3>
       <p style="font-size: 14px; color: #555;">揚げ餃子風・ニンニク強め！</p>
     </div>
 
     <div style="flex: 0 0 auto; width: 240px; background: #fff; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); padding: 12px; scroll-snap-align: start;">
-      <img src="kibori.jpg" alt="喜慕里" style="width: 100%; border-radius: 8px; object-fit: cover; height: 200px;" />
+      <img src="images/kibori.jpg" alt="喜慕里" style="width: 100%; border-radius: 8px; object-fit: cover; height: 200px;" />
       <h3 style="margin: 8px 0 4px; font-size: 16px;">喜慕里（キボリ）</h3>
       <p style="font-size: 14px; color: #555;">パリパリ＆おつまみにも最高！</p>
     </div>
 
     <div style="flex: 0 0 auto; width: 240px; background: #fff; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); padding: 12px; scroll-snap-align: start;">
-      <img src="isimatu.jpg" alt="石松餃子" style="width: 100%; border-radius: 8px; object-fit: cover; height: 200px;" />
+      <img src="images/isimatu.jpg" alt="石松餃子" style="width: 100%; border-radius: 8px; object-fit: cover; height: 200px;" />
       <h3 style="margin: 8px 0 4px; font-size: 16px;">石松餃子 JR浜松駅店</h3>
       <p style="font-size: 14px; color: #555;">駅直結・あっさりモチモチ派に◎</p>
     </div>
 
     <div style="flex: 0 0 auto; width: 240px; background: #fff; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); padding: 12px; scroll-snap-align: start;">
-      <img src="hamatarou.jpg" alt="浜太郎" style="width: 100%; border-radius: 8px; object-fit: cover; height: 200px;" />
+      <img src="images/hamatarou.jpg" alt="浜太郎" style="width: 100%; border-radius: 8px; object-fit: cover; height: 200px;" />
       <h3 style="margin: 8px 0 4px; font-size: 16px;">浜太郎</h3>
       <p style="font-size: 14px; color: #555;">バリエーション豊富な名物餃子！</p>
     </div>
 
     <div style="flex: 0 0 auto; width: 240px; background: #fff; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); padding: 12px; scroll-snap-align: start;">
-      <img src="gyouzaman.jpg" alt="ぎょうざまん" style="width: 100%; border-radius: 8px; object-fit: cover; height: 200px;" />
+      <img src="images/gyouzaman.jpg" alt="ぎょうざまん" style="width: 100%; border-radius: 8px; object-fit: cover; height: 200px;" />
       <h3 style="margin: 8px 0 4px; font-size: 16px;">ぎょうざまん</h3>
       <p style="font-size: 14px; color: #555;">パリパリ系・甘めダレ・駅近！</p>
     </div>
 
     <div style="flex: 0 0 auto; width: 240px; background: #fff; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); padding: 12px; scroll-snap-align: start;">
-      <img src="tanto.jpg" alt="濱松たんと" style="width: 100%; border-radius: 8px; object-fit: cover; height: 200px;" />
+      <img src="images/tanto.jpg" alt="濱松たんと" style="width: 100%; border-radius: 8px; object-fit: cover; height: 200px;" />
       <h3 style="margin: 8px 0 4px; font-size: 16px;">濱松たんと 本店</h3>
       <p style="font-size: 14px; color: #555;">甘めのタレ・お酒も充実の人気店！</p>
     </div>
 
     <div style="flex: 0 0 auto; width: 240px; background: #fff; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); padding: 12px; scroll-snap-align: start;">
-      <img src="mutsukiku.jpg" alt="むつ菊" style="width: 100%; border-radius: 8px; object-fit: cover; height: 200px;" />
+      <img src="images/mutsukiku.jpg" alt="むつ菊" style="width: 100%; border-radius: 8px; object-fit: cover; height: 200px;" />
       <h3 style="margin: 8px 0 4px; font-size: 16px;">むつ菊</h3>
       <p style="font-size: 14px; color: #555;">もちぱり・甘みのある優しい味！</p>
     </div>
 
     <div style="flex: 0 0 auto; width: 240px; background: #fff; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); padding: 12px; scroll-snap-align: start;">
-      <img src="kadoya.jpg" alt="かどや" style="width: 100%; border-radius: 8px; object-fit: cover; height: 200px;" />
+      <img src="images/kadoya.jpg" alt="かどや" style="width: 100%; border-radius: 8px; object-fit: cover; height: 200px;" />
       <h3 style="margin: 8px 0 4px; font-size: 16px;">かどや</h3>
       <p style="font-size: 14px; color: #555;">餃子100個も頼める！揚げ餃子派に◎</p>
     </div>
@@ -206,8 +272,10 @@
   <div id="quiz-container" style="display: none;"></div>
   <div id="result-section" style="display: none;">
     <div id="result-text"></div>
-    <button onclick="retry()">もう一度診断する</button>
-    <button onclick="goHome()">トップに戻る</button>
+    <div id="result-buttons" style="margin-top: 20px;">
+        <button onclick="retry()">もう一度診断する</button>
+        <button onclick="goHome()">トップに戻る</button>
+    </div>
   </div>
 
   <script>
@@ -220,19 +288,22 @@
       { text: "混雑は？", values: ["多少並んでもOK", "空いてる方がいい"] }
     ];
 
+    // --- ▼ recommendations に image と reasons を追加 ▼ ---
     const recommendations = [
-      { name: "むつぎく", conditions: { 0: "駅チカがいい", 1: "パリパリ派", 2: "ガツンと効いてほしい", 4: "充実してるとうれしい", 5: "空いてる方がいい" }, url: "http://mutsugiku.jp/", access: "JR浜松駅から徒歩3分" },
-      { name: "福みつ", conditions: { 1: "パリパリ派", 2: "ガツンと効いてほしい", 4: "餃子だけでOK" }, url: "https://tabelog.com/shizuoka/A2202/A220201/22001373/", access: "遠鉄バス「佐鳴台団地」から徒歩5分" },
-      { name: "喜慕里（キボリ）", conditions: { 1: "パリパリ派", 2: "ガツンと効いてほしい", 4: "充実してるとうれしい" }, url: "https://tabelog.com/shizuoka/A2202/A220201/22002540/", access: "遠鉄バス「西郵便局」から徒歩3分" },
-      { name: "石松餃子 JR浜松駅店", conditions: { 0: "駅チカがいい", 1: "もっちり派", 2: "控えめがいい", 3: "甘めが好き", 5: "多少並んでもOK" }, url: "https://1402.jp/", access: "JR浜松駅直結" },
-      { name: "浜太郎", conditions: { 1: "パリパリ派", 2: "控えめがいい", 4: "餃子だけでOK" }, url: "https://hamatarou-ta.owst.jp/", access: "JR浜松駅から車で15分" },
-      { name: "ぎょうざまん", conditions: { 1: "パリパリ派", 3: "甘めが好き", 5: "空いてる方がいい" }, url: "https://gyotheman.owst.jp/", access: "遠鉄「新浜松駅」から徒歩5分" },
-      { name: "濱松たんと 本店", conditions: { 0: "駅チカがいい", 1: "パリパリ派", 2: "ガツンと効いてほしい", 3: "甘めが好き", 4: "充実してるとうれしい", 5: "多少並んでもOK" }, url: "https://tanto-otabe.com/", access: "JR浜松駅から徒歩5分" },
-      { name: "むつ菊", conditions: { 0: "車でも可", 1: "もちぱり派", 2: "控えめがいい", 3: "甘めが好き", 4: "餃子だけでOK", 5: "空いてる方がいい" }, url: "https://tabelog.com/shizuoka/A2202/A220201/22003100/", access: "浜松ICから車で15分" },
-      { name: "かどや", conditions: { 0: "車でも可", 1: "パリパリ派", 2: "ガツンと効いてほしい", 3: "酸味や辛味が好き", 4: "充実してるとうれしい", 5: "空いてる方がいい" }, url: "https://tabelog.com/shizuoka/A2202/A220201/22001517/", access: "浜松西ICから車で20分" }
+      { name: "むつぎく", conditions: { 0: "駅チカがいい", 1: "パリパリ派", 2: "控えめがいい", 4: "餃子だけでOK", 5: "多少並んでもOK" }, url: "http://mutsugiku.jp/", access: "JR浜松駅から徒歩3分", image: "images/mutsugiku19-4.jpg", reasons: {0: "「駅チカ」を重視するあなたに！", 1: "キャベツ多めの餡を「パリパリ」の皮で楽しめます。", 2: "「にんにく控えめ」であっさり食べられます。"}},
+      { name: "福みつ", conditions: { 1: "パリパリ派", 2: "ガツンと効いてほしい", 4: "餃子だけでOK" }, url: "https://tabelog.com/shizuoka/A2202/A220201/22001373/", access: "遠鉄バス「佐鳴台団地」から徒歩5分", image: "images/fukumitu.jpg", reasons: {1: "揚げ焼き風の「パリパリ派」ならここ！", 2: "「にんにくガツンと」でパンチのある味が特徴です。"}},
+      { name: "喜慕里（キボリ）", conditions: { 1: "パリパリ派", 2: "ガツンと効いてほしい", 4: "充実してるとうれしい" }, url: "https://tabelog.com/shizuoka/A2202/A220201/22002540/", access: "遠鉄バス「西郵便局」から徒歩3分", image: "images/kibori.jpg", reasons: {1: "薄皮で「パリパリ」の食感がたまりません。", 4: "おつまみメニューも多く「充実してる」お店が好きな方におすすめ。"}},
+      { name: "石松餃子 JR浜松駅店", conditions: { 0: "駅チカがいい", 1: "もっちり派", 2: "控えめがいい", 3: "甘めが好き", 5: "多少並んでもOK" }, url: "https://1402.jp/", access: "JR浜松駅直結", image: "images/isimatu.jpg", reasons: {0: "「駅直結」でアクセス抜群！", 1: "皮は「もっちり」とした食感が楽しめます。", 2: "キャベツの甘みが活きた「にんにく控えめ」の優しい味です。"}},
+      { name: "浜太郎", conditions: { 1: "パリパリ派", 4: "充実してるとうれしい" }, url: "https://hamatarou-ta.owst.jp/", access: "JR浜松駅から車で15分", image: "images/hamatarou.jpg", reasons: {1: "「パリパリ」の羽根つき餃子が名物です！", 4: "餃子の種類が豊富で「充実」しています。"}},
+      { name: "ぎょうざまん", conditions: { 0: "駅チカがいい", 1: "パリパリ派", 3: "甘めが好き" }, url: "https://gyotheman.owst.jp/", access: "遠鉄「新浜松駅」から徒歩5分", image: "images/gyouzaman.jpg", reasons: {0: "新浜松駅から徒歩5分で「駅チカ」です。", 1: "「パリパリ」食感の餃子と", 3: "「甘めのタレ」が相性抜群です。"}},
+      { name: "濱松たんと 本店", conditions: { 0: "駅チカがいい", 1: "パリパリ派", 3: "甘めが好き", 4: "充実してるとうれしい", 5: "多少並んでもOK" }, url: "https://tanto-otabe.com/", access: "JR浜松駅から徒歩5分", image: "images/tanto.jpg", reasons: {0: "浜松駅から徒歩圏内の「駅チカ」で便利！", 4: "お酒や一品料理も「充実」している人気店です。"}},
+      { name: "むつ菊", conditions: { 0: "車でも可", 1: "もっちり派", 2: "控えめがいい", 3: "甘めが好き" }, url: "https://tabelog.com/shizuoka/A2202/A220201/22003100/", access: "浜松ICから車で15分", image: "images/mutsukiku.jpg", reasons: {1: "「もっちり」と「パリパリ」の両方が楽しめる『もちぱり』な皮が特徴！", 2: "野菜の甘みが優しい「にんにく控えめ」です。"}},
+      { name: "かどや", conditions: { 0: "車でも可", 1: "パリパリ派", 2: "ガツンと効いてほしい" }, url: "https://tabelog.com/shizuoka/A2202/A220201/22001517/", access: "浜松西ICから車で20分", image: "images/kadoya.jpg", reasons: {1: "揚げ餃子のような「パリパリ」食感が好きな方におすすめ！", 2: "「にんにくガツンと」で食べ応えもばっちりです。" }}
     ];
+    // --- ▲ recommendations に image と reasons を追加 ▲ ---
 
     const answers = {};
+    const quizContainer = document.getElementById('quiz-container');
 
     function createSection(index, question) {
         const section = document.createElement('section');
@@ -243,12 +314,12 @@
         wrapper.className = 'question-wrapper';
 
         const leftImg = document.createElement('img');
-        leftImg.src = `ぱりぱり@300x.png`;
+        leftImg.src = `images/ぱりぱり@300x.png`;
         leftImg.alt = '左画像';
         leftImg.className = 'question-img';
 
         const rightImg = document.createElement('img');
-        rightImg.src = "もちぱり@300x.png";
+        rightImg.src = "images/もちぱり@300x.png";
         rightImg.alt = '右画像';
         rightImg.className = 'question-img';
 
@@ -264,12 +335,18 @@
             btn.className = 'choice';
             btn.textContent = value;
             btn.onclick = () => {
-            answers[index] = value;
-            document.getElementById(`question-${index}`).querySelectorAll('.choice').forEach(c => c.classList.remove('selected'));
-            btn.classList.add('selected');
-            const next = document.getElementById(`question-${index + 1}`);
-            if (next) next.scrollIntoView({ behavior: 'smooth' });
-            else diagnose();
+                answers[index] = value;
+                document.getElementById(`question-${index}`).querySelectorAll('.choice').forEach(c => c.classList.remove('selected'));
+                btn.classList.add('selected');
+
+                // 最後の質問か判定して処理を分岐
+                if (index === questions.length - 1) {
+                    // 少し待ってから診断結果を表示
+                    setTimeout(diagnose, 500); 
+                } else {
+                    const next = document.getElementById(`question-${index + 1}`);
+                    if (next) next.scrollIntoView({ behavior: 'smooth' });
+                }
             };
             content.appendChild(btn);
         });
@@ -283,57 +360,95 @@
 
     document.getElementById('startBtn').addEventListener('click', () => {
       document.querySelector('.hero').style.display = 'none';
-      document.getElementById('quiz-container').style.display = 'block';
+      quizContainer.style.display = 'block';
       const first = document.getElementById('question-0');
-      if (first) first.scrollIntoView({ behavior: 'smooth' });
+      // 最初の質問を少し遅れて表示してスクロール
+      setTimeout(() => {
+        if (first) {
+            first.scrollIntoView({ behavior: 'smooth' });
+            first.classList.add('visible'); // IntersectionObserverが動く前に表示
+        }
+      }, 100);
     });
 
     function retry() {
       for (let key in answers) delete answers[key];
       document.querySelectorAll('.choice').forEach(choice => choice.classList.remove('selected'));
       document.getElementById('result-section').style.display = 'none';
-      document.getElementById('quiz-container').style.display = 'block';
+      quizContainer.style.display = 'block';
+      document.getElementById('question-0').scrollIntoView({ behavior: 'smooth' });
     }
 
     function goHome() {
       for (let key in answers) delete answers[key];
       document.querySelectorAll('.choice').forEach(choice => choice.classList.remove('selected'));
       document.getElementById('result-section').style.display = 'none';
-      document.getElementById('quiz-container').style.display = 'none';
+      quizContainer.style.display = 'none';
       document.querySelector('.hero').style.display = 'block';
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    // --- ▼ diagnose関数をリッチな結果表示に対応 ▼ ---
     function diagnose() {
       let bestMatch = null;
-      let maxScore = 0;
+      let maxScore = -1; // スコアを-1で初期化
+
       recommendations.forEach(rec => {
         let score = 0;
         for (const [qIdx, val] of Object.entries(rec.conditions)) {
-          if (answers[qIdx] === val) score++;
+          if (answers[qIdx] === val) {
+            score++;
+          }
         }
         if (score > maxScore) {
           maxScore = score;
           bestMatch = rec;
         }
       });
+
       const resultSection = document.getElementById('result-section');
       const resultText = document.getElementById('result-text');
+
       if (bestMatch) {
         const percent = Math.round((maxScore / Object.keys(bestMatch.conditions).length) * 100);
+        
+        // おすすめ理由を生成
+        let reasonHtml = '';
+        if (bestMatch.reasons) {
+            for (const [qIdx, reason] of Object.entries(bestMatch.reasons)) {
+                // ユーザーの回答とお店の条件が一致した場合、理由を追加
+                if (answers[qIdx] === bestMatch.conditions[qIdx]) {
+                    reasonHtml += `<p>${reason}</p>`;
+                }
+            }
+        }
+        // もし一致する理由がなくても、基本的な紹介文を用意
+        if (reasonHtml === '') {
+            reasonHtml = '<p>きっとあなたにぴったりの餃子です！</p>';
+        }
+
         resultText.innerHTML = `
           <h2>あなたにおすすめの餃子店は...</h2>
+          <img src="${bestMatch.image}" alt="${bestMatch.name}" class="result-img">
           <h3>${bestMatch.name}</h3>
-          <p>一致度: ${percent}%</p>
-          <p>\u{1F4CD} アクセス: ${bestMatch.access}</p>
-          <a href="${bestMatch.url}" target="_blank" class="result-link">\u25B6 お店の詳細を見る</a>
+          <div class="reason-box">
+            ${reasonHtml}
+          </div>
+          <p class="match-percent">一致度: ${percent}%</p>
+          <p class="access-info">📍 アクセス: ${bestMatch.access}</p>
+          <a href="${bestMatch.url}" target="_blank" class="result-link">▶ お店の詳細を見る</a>
         `;
+
       } else {
-        resultText.innerHTML = `<p>おすすめのお店が見つかりませんでした。</p>`;
+        resultText.innerHTML = `<h2>おすすめのお店が見つかりませんでした。</h2><p>条件を変えてもう一度試してみてくださいね。</p>`;
       }
-      document.getElementById('quiz-container').style.display = 'none';
+
+      quizContainer.style.display = 'none';
       resultSection.style.display = 'flex';
+      // 結果表示時にスムーズにスクロール
+      resultSection.scrollIntoView({ behavior: 'smooth' });
     }
+    // --- ▲ diagnose関数をリッチな結果表示に対応 ▲ ---
 
     function observeSections() {
       const observer = new IntersectionObserver((entries) => {
@@ -346,12 +461,14 @@
       document.querySelectorAll('.section').forEach(sec => observer.observe(sec));
     }
 
+    // 質問を生成
     questions.forEach((q, idx) => {
       const sec = createSection(idx, q);
-      document.getElementById('quiz-container').appendChild(sec);
+      quizContainer.appendChild(sec);
     });
+    
+    // セクション監視を開始
     observeSections();
   </script>
 </body>
 </html>
-
