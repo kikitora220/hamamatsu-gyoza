@@ -71,46 +71,86 @@
       transform: translateY(0);
     }
     .choice {
-      background: #ececec;
+      background: #f0f0f0;
       border-radius: 10px;
-      padding: 12px 20px;
+      padding: 14px 22px;
       margin: 10px;
       border: 2px solid transparent;
       cursor: pointer;
       transition: all 0.3s ease;
       text-align: center;
       color: #333;
+      font-weight: 500;
     }
     .choice:hover {
       background-color: #D89C90;
+      color: #fff;
     }
     .choice.selected {
       background-color: #8D4E49;
       color: #fff;
+      border-color: #8D4E49;
     }
     .question-wrapper {
         display: flex;
+        flex-direction: column;
         align-items: center;
-        justify-content: space-between;
-        flex-wrap: nowrap;
-        width: 100%;
-        max-width: 900px;
+        justify-content: center;
+        width: 90%;
+        max-width: 500px;
         margin: 0 auto;
-    }
-    .question-img {
-        width: 100px;
-        height: 160px;
-        object-fit: cover;
+        background: #fff;
+        padding: 30px 25px; /* パディングを調整 */
         border-radius: 20px;
-        flex-shrink: 0;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
     }
     .question-content {
         text-align: center;
-        flex: 1;
-        padding: 0 20px;
+        width: 100%;
+        padding: 0;
+    }
+    .question-content h2 {
+      font-size: 20px;
+      margin-top: 0;
+      margin-bottom: 15px;
     }
 
-    /* --- ▼ ここから結果表示のスタイルを追加 ▼ --- */
+    /* --- ▼ プログレスバーとキャラクターのスタイル（シンプル版） ▼ --- */
+    .progress-container {
+      width: 100%;
+      height: 45px; /* キャラクターの高さを確保 */
+      position: relative;
+      margin-bottom: 30px; /* 下の余白を調整 */
+    }
+    .progress-bar {
+        width: 100%;
+        background-color: #e0e0e0;
+        border-radius: 5px;
+        height: 10px;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        overflow: hidden;
+    }
+    .progress-bar-inner {
+        width: 0%;
+        height: 100%;
+        background-color: #8D4E49;
+        border-radius: 5px;
+        transition: width 0.5s ease-out;
+    }
+    .progress-character.moving {
+      width: 45px;
+      height: 45px;
+      position: absolute;
+      top: 50%;
+      left: 0%;
+      transform: translate(-50%, -50%);
+      transition: left 0.5s ease-out;
+      z-index: 2;
+    }
+    /* --- ▲ スタイルここまで ▲ --- */
+    
     #result-section {
       min-height: 100vh;
       background: #8D4E49;
@@ -191,8 +231,6 @@
       background-color: white;
       color: #8D4E49;
     }
-    /* --- ▲ ここまで結果表示のスタイルを追加 ▲ --- */
-
   </style>
 </head>
 <body>
@@ -268,7 +306,6 @@
 
   </section>
   
-
   <div id="quiz-container" style="display: none;"></div>
   <div id="result-section" style="display: none;">
     <div id="result-text"></div>
@@ -288,7 +325,6 @@
       { text: "混雑は？", values: ["多少並んでもOK", "空いてる方がいい"] }
     ];
 
-    // --- ▼ recommendations に image と reasons を追加 ▼ ---
     const recommendations = [
       { name: "むつぎく", conditions: { 0: "駅チカがいい", 1: "パリパリ派", 2: "控えめがいい", 4: "餃子だけでOK", 5: "多少並んでもOK" }, url: "http://mutsugiku.jp/", access: "JR浜松駅から徒歩3分", image: "images/mutsugiku19-4.jpg", reasons: {0: "「駅チカ」を重視するあなたに！", 1: "キャベツ多めの餡を「パリパリ」の皮で楽しめます。", 2: "「にんにく控えめ」であっさり食べられます。"}},
       { name: "福みつ", conditions: { 1: "パリパリ派", 2: "ガツンと効いてほしい", 4: "餃子だけでOK" }, url: "https://tabelog.com/shizuoka/A2202/A220201/22001373/", access: "遠鉄バス「佐鳴台団地」から徒歩5分", image: "images/fukumitu.jpg", reasons: {1: "揚げ焼き風の「パリパリ派」ならここ！", 2: "「にんにくガツンと」でパンチのある味が特徴です。"}},
@@ -300,11 +336,11 @@
       { name: "むつ菊", conditions: { 0: "車でも可", 1: "もっちり派", 2: "控えめがいい", 3: "甘めが好き" }, url: "https://tabelog.com/shizuoka/A2202/A220201/22003100/", access: "浜松ICから車で15分", image: "images/mutsukiku.jpg", reasons: {1: "「もっちり」と「パリパリ」の両方が楽しめる『もちぱり』な皮が特徴！", 2: "野菜の甘みが優しい「にんにく控えめ」です。"}},
       { name: "かどや", conditions: { 0: "車でも可", 1: "パリパリ派", 2: "ガツンと効いてほしい" }, url: "https://tabelog.com/shizuoka/A2202/A220201/22001517/", access: "浜松西ICから車で20分", image: "images/kadoya.jpg", reasons: {1: "揚げ餃子のような「パリパリ」食感が好きな方におすすめ！", 2: "「にんにくガツンと」で食べ応えもばっちりです。" }}
     ];
-    // --- ▲ recommendations に image と reasons を追加 ▲ ---
 
     const answers = {};
     const quizContainer = document.getElementById('quiz-container');
 
+    // --- ▼ `createSection`関数をシンプル版に変更 ▼ ---
     function createSection(index, question) {
         const section = document.createElement('section');
         section.className = 'section';
@@ -313,21 +349,32 @@
         const wrapper = document.createElement('div');
         wrapper.className = 'question-wrapper';
 
-        const leftImg = document.createElement('img');
-        leftImg.src = `images/ぱりぱり@300x.png`;
-        leftImg.alt = '左画像';
-        leftImg.className = 'question-img';
+        const progressContainer = document.createElement('div');
+        progressContainer.className = 'progress-container';
 
-        const rightImg = document.createElement('img');
-        rightImg.src = "images/もちぱり@300x.png";
-        rightImg.alt = '右画像';
-        rightImg.className = 'question-img';
+        const progressBar = document.createElement('div');
+        progressBar.className = 'progress-bar';
+        const progressBarInner = document.createElement('div');
+        progressBarInner.className = 'progress-bar-inner';
+        progressBar.appendChild(progressBarInner);
+        
+        const movingChar = document.createElement('img');
+        movingChar.src = 'images/もちぱり@300x.png';
+        movingChar.className = 'progress-character moving';
+        movingChar.id = `moving-char-${index}`; 
+
+        progressContainer.appendChild(progressBar);
+        progressContainer.appendChild(movingChar);
+        
+        const initialProgress = (index / questions.length) * 100;
+        progressBarInner.style.width = `${initialProgress}%`;
+        movingChar.style.left = `${initialProgress}%`;
 
         const content = document.createElement('div');
         content.className = 'question-content';
 
         const h2 = document.createElement('h2');
-        h2.textContent = `${index + 1}. ${question.text}`;
+        h2.textContent = question.text;
         content.appendChild(h2);
 
         question.values.forEach(value => {
@@ -339,39 +386,45 @@
                 document.getElementById(`question-${index}`).querySelectorAll('.choice').forEach(c => c.classList.remove('selected'));
                 btn.classList.add('selected');
 
-                // 最後の質問か判定して処理を分岐
-                if (index === questions.length - 1) {
-                    // 少し待ってから診断結果を表示
-                    setTimeout(diagnose, 500); 
-                } else {
-                    const next = document.getElementById(`question-${index + 1}`);
-                    if (next) next.scrollIntoView({ behavior: 'smooth' });
-                }
+                const progress = ((index + 1) / questions.length) * 100;
+                progressBarInner.style.width = `${progress}%`;
+                movingChar.style.left = `${progress}%`;
+
+                setTimeout(() => {
+                    if (index === questions.length - 1) {
+                        diagnose(); 
+                    } else {
+                        const next = document.getElementById(`question-${index + 1}`);
+                        if (next) next.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }, 400);
             };
             content.appendChild(btn);
         });
 
-        wrapper.appendChild(leftImg);
-        wrapper.appendChild(content);
-        wrapper.appendChild(rightImg);
+        wrapper.appendChild(progressContainer);
+        wrapper.appendChild(content); // メインの画像コンテナは削除
         section.appendChild(wrapper);
         return section;
     }
+    // --- ▲ `createSection`関数ここまで ▲ ---
 
     document.getElementById('startBtn').addEventListener('click', () => {
       document.querySelector('.hero').style.display = 'none';
       quizContainer.style.display = 'block';
       const first = document.getElementById('question-0');
-      // 最初の質問を少し遅れて表示してスクロール
       setTimeout(() => {
         if (first) {
             first.scrollIntoView({ behavior: 'smooth' });
-            first.classList.add('visible'); // IntersectionObserverが動く前に表示
+            first.classList.add('visible');
         }
       }, 100);
     });
 
     function retry() {
+      document.querySelectorAll('.progress-bar-inner').forEach(bar => bar.style.width = '0%');
+      document.querySelectorAll('.progress-character.moving').forEach(char => char.style.left = '0%');
+      
       for (let key in answers) delete answers[key];
       document.querySelectorAll('.choice').forEach(choice => choice.classList.remove('selected'));
       document.getElementById('result-section').style.display = 'none';
@@ -380,18 +433,16 @@
     }
 
     function goHome() {
-      for (let key in answers) delete answers[key];
-      document.querySelectorAll('.choice').forEach(choice => choice.classList.remove('selected'));
+      retry(); 
       document.getElementById('result-section').style.display = 'none';
       quizContainer.style.display = 'none';
       document.querySelector('.hero').style.display = 'block';
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // --- ▼ diagnose関数をリッチな結果表示に対応 ▼ ---
     function diagnose() {
       let bestMatch = null;
-      let maxScore = -1; // スコアを-1で初期化
+      let maxScore = -1;
 
       recommendations.forEach(rec => {
         let score = 0;
@@ -411,18 +462,14 @@
 
       if (bestMatch) {
         const percent = Math.round((maxScore / Object.keys(bestMatch.conditions).length) * 100);
-        
-        // おすすめ理由を生成
         let reasonHtml = '';
         if (bestMatch.reasons) {
             for (const [qIdx, reason] of Object.entries(bestMatch.reasons)) {
-                // ユーザーの回答とお店の条件が一致した場合、理由を追加
                 if (answers[qIdx] === bestMatch.conditions[qIdx]) {
                     reasonHtml += `<p>${reason}</p>`;
                 }
             }
         }
-        // もし一致する理由がなくても、基本的な紹介文を用意
         if (reasonHtml === '') {
             reasonHtml = '<p>きっとあなたにぴったりの餃子です！</p>';
         }
@@ -445,10 +492,8 @@
 
       quizContainer.style.display = 'none';
       resultSection.style.display = 'flex';
-      // 結果表示時にスムーズにスクロール
       resultSection.scrollIntoView({ behavior: 'smooth' });
     }
-    // --- ▲ diagnose関数をリッチな結果表示に対応 ▲ ---
 
     function observeSections() {
       const observer = new IntersectionObserver((entries) => {
@@ -461,13 +506,11 @@
       document.querySelectorAll('.section').forEach(sec => observer.observe(sec));
     }
 
-    // 質問を生成
     questions.forEach((q, idx) => {
       const sec = createSection(idx, q);
       quizContainer.appendChild(sec);
     });
     
-    // セクション監視を開始
     observeSections();
   </script>
 </body>
